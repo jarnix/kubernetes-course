@@ -1,5 +1,9 @@
 https://www.udemy.com/course/learn-devops-the-complete-kubernetes-course/learn/lecture/6045274#questions
 
+# cheatsheet
+
+https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+
 # Install sous windows
 
 Open the Hyper-V Manager.
@@ -62,3 +66,17 @@ kubectl run hello-kubernetes --image=k8s.gcr.io/echoserver:1.4 --port=8080
 # pour le supprimer
 
 kops delete cluster kubernetes.jarnix.com --state=s3://kops-state-jarnix --yes
+
+# création de pod pour une app
+
+kubectl create -f helloworld.yml
+
+# réplicas
+
+kubectl create -f replication-controller/helloworld-repl-controller.yml
+
+kubectl scale --replicas=4 -f replication-controller/helloworld-repl-controller.yml
+
+kubectl get rc
+
+
