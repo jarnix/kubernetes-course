@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: registry-jarnix-com
+  namespace: default
+spec:
+  secretName: registry-jarnix-com-tls
+  issuerRef:
+    name: issuer-production
+  commonName: jarnix.com
+  dnsNames:
+  - registry.jarnix.com
