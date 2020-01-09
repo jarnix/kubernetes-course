@@ -2,6 +2,7 @@ Déploiement d'une registry docker sécurisée avec authentification via kuberne
 
 Voir :
 https://cert-manager.io/docs/tutorials/acme/http-validation/
+=> essayer sans ingress class etc
 
 # Cluster et namespace
 

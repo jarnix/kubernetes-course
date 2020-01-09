@@ -5,6 +5,7 @@ metadata:
 spec:
   secretName: registry-jarnix-com-tls
   issuerRef:
+    kind: ClusterIssuer
     name: letsencrypt-staging
   commonName: jarnix.com
   dnsNames:
