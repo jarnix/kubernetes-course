@@ -23,7 +23,7 @@ spec:
         - name: REGISTRY_AUTH
           value: token
         - name: REGISTRY_AUTH_TOKEN_REALM
-          value: https://auth:5001/auth # the authentication server URI https://auth:5001/auth
+          value: https://localhost:5001/auth # the authentication server URI https://auth:5001/auth
         - name: REGISTRY_AUTH_TOKEN_SERVICE
           value: "registry"
         - name: REGISTRY_AUTH_TOKEN_ISSUER
@@ -33,7 +33,7 @@ spec:
         - name: REGISTRY_HTTP_SECRET
           value: omgitsapseudorandomstringomglol
 
-    - name: dockerauth
+    - name: auth
       image: cesanta/docker_auth:1
       args: ["--v", "2" , "--alsologtostderr", "/config/auth_config.yml"]
     #   args: ["-c", "while true; do echo hello; sleep 10;done"]
