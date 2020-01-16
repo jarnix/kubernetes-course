@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: basic-ingress
+  annotations:
+    certmanager.k8s.io/issuer: "letsencrypt-prod"
+    certmanager.k8s.io/acme-challenge-type: http01
+spec:
+  tls:
+  - hosts:
+    - registry.jarnix.com
+    secretName: example-tls
+  rules:
+  - host: registry.jarnix.com
+    http:
+      paths:
+      - backend:
+          serviceName: nginx
+          servicePort: 80

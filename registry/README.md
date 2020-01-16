@@ -9,12 +9,6 @@ Déploiement d'une registry docker sécurisée avec authentification via kuberne
 kubectl create namespace registry
 ```
 
-## nginx ingress
-
-Source: 
-- https://itsmetommy.com/2019/07/27/kubernetes-nginx-ingress-controller-on-gke/
-
-
 Si nécessaire, ajouter un repo pour helm
 
 ```
@@ -25,16 +19,11 @@ helm repo add stable https://kubernetes-charts.storage.googleapis.com/
 helm install stable/nginx-ingress  --generate-name --namespace=registry --set rbac.create=true   --set controller.publishService.enabled=true --set controller.scope.enabled=true --set controller.scope.namespace=registry
 ```
 
-Attendre :)
-```
-kubectl --namespace registry get services -o wide nginx-ingress-1578510202-controller
-```
+Créer une adresse IP
 
 ```
-kubectl get svc --namespace registry
+gcloud compute addresses create registry-ip-address --global
 ```
-
-On obtient l'ip d'ingress.
 
 Ajouter cette IP aux DNS par exemple ici registry.jarnix.com
 

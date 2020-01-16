@@ -1,0 +1,1 @@
+gcloud compute addresses create example-ip-address --global

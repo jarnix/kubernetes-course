@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: accesspod
+spec:
+  containers:
+    - name: access
+      image: nginx
+      volumeMounts:
+      - name: auth-ssl-volume
+        mountPath: "/ssl"
+        readOnly: true
+
+  volumes:
+    - name: auth-ssl-volume
+      secret:
+        secretName: auth-ssl-server

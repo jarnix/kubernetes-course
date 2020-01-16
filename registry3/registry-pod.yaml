@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: registry-pod
+spec:
+  containers:
+    - name: registry
+      image: registry:2
+      ports:
+        - containerPort: 5000
+      volumeDevices:
+        - name: registry-data-volume
+          devicePath: /var/lib/registry
+      env:
+        - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
+            value: /var/lib/registry
+        - name: REGISTRY_AUTH
+            value: token
+        - name: REGISTRY_AUTH_TOKEN_REALM
+            value: https://auth:5001/auth # the authentication server URI https://auth:5001/auth
+        - name: REGISTRY_AUTH_TOKEN_SERVICE
+            value: "registry"
+        - name: REGISTRY_AUTH_TOKEN_ISSUER
+            value: "auth_service" # Should be the same as token.issuer from authenticated-registry/config/auth_config.yml
+        - name: REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE
+            value: /ssl/server.pem
+        - name: REGISTRY_HTTP_SECRET
+            value: omgitsapseudorandomstringomglol
+
+    - name: dockerauth
+      image: cesanta/docker_auth:1
+      volumeDevices:
+        - name: auth-acl-persistent-volume
+          devicePath: /config
+        - ssl: auth-ssl-persistent-volume
+          devicePath: /ssl
+      ports:
+        - containerPort: 5001
+  volumes:
+    - name: registry-data-volume
+      persistentVolumeClaim:
+        claimName: registry-data-pvc
+    - name: auth-acl-persistent-volume
+      persistentVolumeClaim:
+        claimName: auth-acl-pvc
+    - name: auth-ssl-persistent-volume
+        persistentVolumeClaim:
+          claimName: auth-ssl-pvc
