@@ -14,11 +14,11 @@ token:  # Settings for the tokens.
 users:
   # Password is specified as a BCrypt hash. Use "htpasswd -nB username" to generate.
   "julien":
-    password: "$2y$05$h1DXxywFzABCQtLWvH1FzuYSdEFavmXNgekJSJAgwv.TR8UT0r0KO"
+    password: "$2y$05$UTkGeqybpjRipHMbEQFRHO6z7x/uLFLXHWMWUOt6azd8jDyYyeX0S" # toto
 
 acl:
   # Admin has full access to everything.
-  - match: {account: "admin"}
+  - match: {account: "julien"}
     actions: ["*"]
   # Users have full right on their repository
   - match: {account: "/.+/", name: "${account}/*"}

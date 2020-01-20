@@ -6,15 +6,17 @@ Se connecter au cluster pour kubectl (remplacer le nom du cluster)
 gcloud container clusters get-credentials testju-cluster --zone europe-west1-b --project webediads
 ```
 
-Créer une adresse ip
+Créer deux adresses ip
 
 ```
 gcloud compute addresses create registryipaddress --global
+gcloud compute addresses create authipaddress --global
 ```
 
 L'obtenir :
 ```
 gcloud compute addresses describe registryipaddress --global
+gcloud compute addresses describe authipaddress --global
 ```
 
 #### Certificat pour l'auth
@@ -68,6 +70,7 @@ kubectl apply -f auth-config-secret.yaml
 
 ```
 kubectl apply -f registry-pod.yaml
+kubectl apply -f auth-pod.yaml
 ```
 
 #### Certificat managé par GKE
@@ -78,6 +81,12 @@ Mettre le bon nom de domaine dans le fichier registry-cert-managed.yaml
 kubectl apply -f registry-cert-managed.yaml
 ```
 
+Mettre le bon nom de domaine dans le fichier auth-cert-managed.yaml
+
+```
+kubectl apply -f auth-cert-managed.yaml
+```
+
 ```
 kubectl describe managedcertificate
 ```
@@ -86,10 +95,12 @@ kubectl describe managedcertificate
 
 ```
 kubectl apply -f registry-service.yaml
+kubectl apply -f auth-service.yaml
 ```
 
 ```
 kubectl apply -f registry-managed-ingress.yaml
+kubectl apply -f auth-managed-ingress.yaml
 ```
 
 ```
@@ -99,7 +110,7 @@ kubectl get ingress
 Pour se connecter à un container dans un pod, exemple :
 
 ```
-kubectl exec -it registry-pod --container dockerauth -- /bin/sh
+kubectl exec -it registry-pod -- /bin/sh
 ```
 
 Sources :

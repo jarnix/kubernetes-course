@@ -8,5 +8,6 @@ spec:
     app: registry
   ports:
     - protocol: TCP
+      name: registry
       port: 80
       targetPort: 5000

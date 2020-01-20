@@ -23,7 +23,7 @@ spec:
         - name: REGISTRY_AUTH
           value: token
         - name: REGISTRY_AUTH_TOKEN_REALM
-          value: https://127.0.0.1:5001/auth # the authentication server URI https://auth:5001/auth
+          value: http://authregistry.jarnix.com/auth # the authentication server URI https://auth:5001/auth
         - name: REGISTRY_AUTH_TOKEN_SERVICE
           value: "registry"
         - name: REGISTRY_AUTH_TOKEN_ISSUER
@@ -33,19 +33,6 @@ spec:
         - name: REGISTRY_HTTP_SECRET
           value: omgitsapseudorandomstringomglol
 
-    - name: auth
-      image: cesanta/docker_auth:1
-      args: ["--v", "2" , "--alsologtostderr", "/config/auth_config.yml"]
-    #   args: ["-c", "while true; do echo hello; sleep 10;done"]
-      volumeMounts:
-      - name: auth-ssl-volume
-        mountPath: "/ssl"
-        readOnly: true
-      - name: auth-config-volume
-        mountPath: "/config"
-        readOnly: true
-      ports:
-        - containerPort: 5001
   volumes:
     - name: registry-data-volume
       persistentVolumeClaim:
@@ -53,9 +40,6 @@ spec:
     - name: auth-ssl-volume
       secret:
         secretName: auth-ssl-server
-    - name: auth-config-volume
-      secret:
-        secretName: auth-config-secret
-        
+
 
   
