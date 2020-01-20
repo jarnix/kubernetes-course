@@ -1,0 +1,12 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: auth-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: authipaddress
+    # networking.gke.io/managed-certificates: auth-certificate
+
+spec:
+  backend:
+    serviceName: auth-service
+    servicePort: 5001
