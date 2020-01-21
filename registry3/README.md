@@ -20,20 +20,20 @@ gcloud compute addresses describe authipaddress --global
 ```
 
 #### Certificat pour l'auth
-L'utiliser dans une entrée A pour registry.monndd.com
+On l'utilisera dans une entrée A pour authregistry.monndd.com
 
-Pour générer le certificat auto-signé pour la communication entre registry et auth, ou utiliser ceux déjà dans le dossier ssl
+Pour générer le certificat auto-signé pour la communication entre registry et auth :
 
 ```
 cd ssl
 sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.pem
 ```
 
-=> Utiliser "auth" pour le Common Name
+=> Utiliser le NDD final pour le Common Name
 
 #### Création des secret
 
-base64 des deux fichiers générés => deux longues chaînes dans auth-ssl-server-secret.yaml*
+<!-- base64 des deux fichiers générés => deux longues chaînes dans auth-ssl-server-secret.yaml*
 
 ```
 base64 -w 0 server.key
@@ -42,6 +42,11 @@ base64 -w 0 server.pem
 
 ```
 kubectl apply -f auth-ssl-server-secret.yaml
+``` -->
+
+```
+cd ssl
+kubectl create secret generic auth-ssl-server --from-file=./server.key --from-file=./server.pem
 ```
 
 #### Créer le volume pour la registry
@@ -54,7 +59,12 @@ kubectl apply -f registry-data-persistent-volume.yaml
 
 Ajouter l'entrée pour les users dans la config config/auth_config.yml
 
-L'encoder en base64
+```
+kubectl create secret generic auth-config-secret --from-file=./config/auth_config.yml
+```
+
+
+<!-- L'encoder en base64
 
 ```
 base64 -w 0 config/auth_config.yml
@@ -64,7 +74,7 @@ Modifier le yaml auth-config-secret.yaml
 
 ```
 kubectl apply -f auth-config-secret.yaml
-```
+``` -->
 
 #### Pod registry + auth
 
@@ -81,11 +91,11 @@ Mettre le bon nom de domaine dans le fichier registry-cert-managed.yaml
 kubectl apply -f registry-cert-managed.yaml
 ```
 
-Mettre le bon nom de domaine dans le fichier auth-cert-managed.yaml
+<!-- Mettre le bon nom de domaine dans le fichier auth-cert-managed.yaml
 
 ```
 kubectl apply -f auth-cert-managed.yaml
-```
+``` -->
 
 ```
 kubectl describe managedcertificate
@@ -100,19 +110,18 @@ kubectl apply -f auth-service.yaml
 
 ```
 kubectl apply -f registry-managed-ingress.yaml
-kubectl apply -f auth-managed-ingress.yaml
 ```
+
+<!-- ```
+kubectl apply -f auth-managed-ingress.yaml
+``` -->
 
 ```
 kubectl get ingress
 ```
 
-Pour se connecter à un container dans un pod, exemple :
+Récupérer l'ip du service de type load balancer créé pour auth :
 
 ```
-kubectl exec -it registry-pod -- /bin/sh
+kubectl get svc
 ```
-
-Sources :
-
-https://cloud.google.com/kubernetes-engine/docs/how-to/managed-certs

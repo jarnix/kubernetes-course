@@ -23,7 +23,7 @@ spec:
         - name: REGISTRY_AUTH
           value: token
         - name: REGISTRY_AUTH_TOKEN_REALM
-          value: http://authregistry.jarnix.com/auth # the authentication server URI https://auth:5001/auth
+          value: https://authregistry.jarnix.com:5001/auth # the authentication server URI https://auth:5001/auth
         - name: REGISTRY_AUTH_TOKEN_SERVICE
           value: "registry"
         - name: REGISTRY_AUTH_TOKEN_ISSUER

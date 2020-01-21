@@ -8,6 +8,8 @@ spec:
   containers:
     - name: auth
       image: cesanta/docker_auth:1
+      ports:
+        - containerPort: 5001
       args: ["--v=2", "--alsologtostderr", "/config/auth_config.yml"]
       volumeMounts:
       - name: auth-ssl-volume
@@ -16,8 +18,6 @@ spec:
       - name: auth-config-volume
         mountPath: "/config"
         readOnly: true
-      ports:
-        - containerPort: 5001
   volumes:
     - name: auth-ssl-volume
       secret:
