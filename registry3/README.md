@@ -31,22 +31,8 @@ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out
 
 => Utiliser le NDD final pour le Common Name
 
-#### Création des secret
-
-<!-- base64 des deux fichiers générés => deux longues chaînes dans auth-ssl-server-secret.yaml*
-
 ```
-base64 -w 0 server.key
-base64 -w 0 server.pem
-```
-
-```
-kubectl apply -f auth-ssl-server-secret.yaml
-``` -->
-
-```
-cd ssl
-kubectl create secret generic auth-ssl-server --from-file=./server.key --from-file=./server.pem
+kubectl create secret generic auth-ssl-server --from-file=ssl/server.key --from-file=ssl/server.pem
 ```
 
 #### Créer le volume pour la registry
@@ -63,19 +49,6 @@ Ajouter l'entrée pour les users dans la config config/auth_config.yml
 kubectl create secret generic auth-config-secret --from-file=./config/auth_config.yml
 ```
 
-
-<!-- L'encoder en base64
-
-```
-base64 -w 0 config/auth_config.yml
-```
-
-Modifier le yaml auth-config-secret.yaml
-
-```
-kubectl apply -f auth-config-secret.yaml
-``` -->
-
 #### Pod registry + auth
 
 ```
@@ -91,12 +64,6 @@ Mettre le bon nom de domaine dans le fichier registry-cert-managed.yaml
 kubectl apply -f registry-cert-managed.yaml
 ```
 
-<!-- Mettre le bon nom de domaine dans le fichier auth-cert-managed.yaml
-
-```
-kubectl apply -f auth-cert-managed.yaml
-``` -->
-
 ```
 kubectl describe managedcertificate
 ```
@@ -111,10 +78,6 @@ kubectl apply -f auth-service.yaml
 ```
 kubectl apply -f registry-managed-ingress.yaml
 ```
-
-<!-- ```
-kubectl apply -f auth-managed-ingress.yaml
-``` -->
 
 ```
 kubectl get ingress
